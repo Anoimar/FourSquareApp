@@ -3,6 +3,7 @@ package com.thernat.foursquareapp.di
 import com.thernat.foursquareapp.FourSquareApplication
 import com.thernat.foursquareapp.api.di.NetModule
 import com.thernat.foursquareapp.data.source.di.VenuesRepositoryModule
+import com.thernat.foursquareapp.location.LocationModule
 import dagger.BindsInstance
 import dagger.Component
 import dagger.android.support.AndroidSupportInjectionModule
@@ -13,7 +14,8 @@ import javax.inject.Singleton
  */
 @Singleton
 @Component(modules = [AndroidSupportInjectionModule::class,
-    ActivityBindingModule::class,AppModule::class,NetModule::class,VenuesRepositoryModule::class])
+    ActivityBindingModule::class, AppModule::class, NetModule::class, LocationModule::class,
+    VenuesRepositoryModule::class])
 interface AppComponent {
 
     @Component.Builder

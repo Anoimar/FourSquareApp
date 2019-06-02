@@ -55,7 +55,11 @@ class VenueListActivity : DaggerAppCompatActivity(),VenueListContract.View,EasyP
         tvNoResults.visibility = View.INVISIBLE
     }
 
-    override fun displayError() {
+    override fun displayLocationError() {
+        showAlert(getString(R.string.location_not_acquired))
+    }
+
+    override fun displayNetworkError() {
         showAlert(getString(R.string.download_failed))
     }
 

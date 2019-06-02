@@ -13,7 +13,7 @@ interface VenueListContract {
 
         fun displayVenues(venues: List<Venue>)
 
-        fun displayError()
+        fun displayNetworkError()
 
         fun showLoading(show: Boolean)
 
@@ -24,6 +24,8 @@ interface VenueListContract {
         fun askForLocationPermissions()
 
         fun displayNoLocationPermissionWarning()
+
+        fun displayLocationError()
 
     }
 

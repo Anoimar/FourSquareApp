@@ -1,5 +1,6 @@
 package com.thernat.foursquareapp.utils.location
 
+import android.location.Location
 import javax.inject.Inject
 
 /**
@@ -7,7 +8,7 @@ import javax.inject.Inject
  */
 class RequestParamFormatter @Inject constructor() {
 
-    fun convertLatitudeAndLongitudeToQueryParam(latitude: Double, longitude: Double): String{
-        return "$latitude,$longitude"
+    fun convertLatitudeAndLongitudeToQueryParam(location: Location): String{
+        return "${location.latitude},${location.longitude}"
     }
 }

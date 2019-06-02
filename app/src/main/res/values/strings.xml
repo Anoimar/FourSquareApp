@@ -7,4 +7,5 @@
     <string name="location_permission_denied">Application has no location permission.</string>
     <string name="permission_location_info">To show nearby venues we need access to your location</string>
     <string name="button_neutral">OK</string>
+    <string name="location_not_acquired">Failed to get user location</string>
 </resources>
