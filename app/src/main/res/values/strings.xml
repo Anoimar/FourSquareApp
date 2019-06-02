@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">FourSquareApp</string>
+    <string name="address_label">Address:</string>
+    <string name="distance_label">Distance:</string>
 </resources>

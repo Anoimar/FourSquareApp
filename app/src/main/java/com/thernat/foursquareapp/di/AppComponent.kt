@@ -24,5 +24,5 @@ interface AppComponent {
         fun build(): AppComponent
     }
 
-    abstract fun inject(application: FourSquareApplication)
+    fun inject(application: FourSquareApplication)
 }

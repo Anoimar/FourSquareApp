@@ -7,13 +7,26 @@
         android:layout_height="match_parent"
         tools:context=".main.VenueListActivity">
 
-    <TextView
-            android:layout_width="wrap_content"
+
+    <SearchView
+            android:id="@+id/svFindVenue"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Hello World!"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"/>
+
+    <ListView
+            android:id="@+id/lvVenues"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="@dimen/small_margin_size"
+            android:layout_marginStart="@dimen/small_margin_size"
+            android:layout_marginEnd="@dimen/small_margin_size"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/svFindVenue"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+    </ListView>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

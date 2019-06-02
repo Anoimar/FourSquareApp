@@ -1,8 +1,10 @@
 package com.thernat.foursquareapp.di
 
 import com.thernat.foursquareapp.main.VenueListActivity
+import com.thernat.foursquareapp.main.adapter.VenueAdapter
 import com.thernat.foursquareapp.main.di.VenueListModule
 import dagger.Module
+import dagger.Provides
 import dagger.android.ContributesAndroidInjector
 
 /**
@@ -13,5 +15,7 @@ abstract class ActivityBindingModule {
 
     @ActivityScoped
     @ContributesAndroidInjector(modules = [(VenueListModule::class)])
-    internal abstract fun bindsMainActivity(): VenueListActivity
+    internal abstract fun bindsVenueActivity(): VenueListActivity
+
+
 }
