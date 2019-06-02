@@ -2,4 +2,7 @@
     <string name="app_name">FourSquareApp</string>
     <string name="address_label">Address:</string>
     <string name="distance_label">Distance:</string>
+    <string name="no_results">No results</string>
+    <string name="download_failed">Failed to get nearby Venues</string>
+    <string name="button_neutral">OK</string>
 </resources>

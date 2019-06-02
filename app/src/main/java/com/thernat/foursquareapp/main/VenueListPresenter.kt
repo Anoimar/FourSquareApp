@@ -1,5 +1,6 @@
 package com.thernat.foursquareapp.main
 
+import com.thernat.foursquareapp.api.json.Venue
 import com.thernat.foursquareapp.data.source.repository.VenuesRepository
 import com.thernat.foursquareapp.utils.location.RequestParamFormatter
 import com.thernat.foursquareapp.utils.schedulers.SchedulerProvider
@@ -15,25 +16,56 @@ class VenueListPresenter @Inject constructor(private val venuesRepository: Venue
 
     private var view: VenueListContract.View? = null
 
+    private var latitudeAndLongitude: String? = null
 
-    override fun newLocationAcquired(latitude: Double, longitude: Double) {
-        venuesRepository
-            .getVenues(requestParamFormatter.convertLatitudeAndLongitudeToQueryParam(latitude,longitude))
-            .subscribeOn(schedulerProvider.computation())
-            .observeOn(schedulerProvider.ui())
-            .subscribe({
-                view?.displayVenues(it)
-            },{
-                view?.displayError()
-            }).apply {
-                compositeDisposable.add(this)
-            }
-    }
+    var filter = ""
 
 
     override fun takeView(view: VenueListContract.View) {
         this.view = view
     }
+
+    override fun newLocationAcquired(latitude: Double, longitude: Double) {
+        latitudeAndLongitude = requestParamFormatter.convertLatitudeAndLongitudeToQueryParam(latitude,longitude)
+        loadVenues()
+    }
+
+    override fun setNewFilter(query: String) {
+        this.filter = query
+        loadVenues()
+    }
+
+    private fun loadVenues() {
+        view?.showLoading(true)
+        latitudeAndLongitude?.let {
+            venuesRepository
+                .getVenues(it)
+                .subscribeOn(schedulerProvider.computation())
+                .observeOn(schedulerProvider.ui())
+                .subscribe({ venues ->
+                    filterAndDisplayVenues(venues)
+                    view?.showLoading(false)
+                },{
+                    view?.displayError()
+                    view?.showLoading(false)
+                }).apply {
+                    compositeDisposable.add(this)
+                }
+        }
+    }
+
+    private fun filterAndDisplayVenues(venues: List<Venue>) {
+      venues.asSequence()
+            .filter {  it.name.startsWith(filter,true)}
+            .toList().let {filteredVenues ->
+              if(filteredVenues.isEmpty()){
+                  view?.displayNoResults()
+              } else {
+                  view?.displayVenues(filteredVenues)
+              }
+          }
+    }
+
 
     override fun dropView() {
         compositeDisposable.clear()

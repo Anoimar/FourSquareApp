@@ -17,11 +17,15 @@ interface VenueListContract {
 
         fun showLoading(show: Boolean)
 
+        fun displayNoResults()
+
 
     }
 
     interface Presenter : BasePresenter<View> {
 
         fun newLocationAcquired(latitude: Double, longitude: Double)
+
+        fun setNewFilter(query: String)
     }
 }

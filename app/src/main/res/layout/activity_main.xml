@@ -19,7 +19,7 @@
             android:id="@+id/lvVenues"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_marginTop="@dimen/small_margin_size"
+            android:layout_marginTop="@dimen/medium_margin_size"
             android:layout_marginStart="@dimen/small_margin_size"
             android:layout_marginEnd="@dimen/small_margin_size"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -27,6 +27,30 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent">
     </ListView>
+
+    <TextView
+            android:id="@+id/tvNoResults"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="@id/lvVenues"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:text="@string/no_results"
+            android:visibility="invisible"
+
+    />
+
+    <ProgressBar
+            android:id="@+id/pbLoading"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/svFindVenue"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintVertical_bias="0.3"
+            android:visibility="invisible"
+    />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
