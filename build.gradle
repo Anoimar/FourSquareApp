@@ -11,6 +11,8 @@ buildscript {
     ext.room_version = '1.1.1'
     ext.moshi_version='1.8.0'
     ext.design_version='1.1.0-alpha05'
+    ext.easypermissions_version='3.0.0'
+
 
     repositories {
         google()

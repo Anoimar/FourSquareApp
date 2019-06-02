@@ -23,10 +23,26 @@ class VenueListPresenter @Inject constructor(private val venuesRepository: Venue
 
     override fun takeView(view: VenueListContract.View) {
         this.view = view
+        if(latitudeAndLongitude != null){
+            loadVenues()
+        } else {
+            getLocation()
+        }
+
     }
 
-    override fun newLocationAcquired(latitude: Double, longitude: Double) {
-        latitudeAndLongitude = requestParamFormatter.convertLatitudeAndLongitudeToQueryParam(latitude,longitude)
+    private fun getLocation() {
+        view?.let { view ->
+            if(view.isPermissionGranted()){
+                getLocationFromProvider()
+            } else {
+                view.askForLocationPermissions()
+            }
+        }
+    }
+
+    private fun getLocationFromProvider(){
+        latitudeAndLongitude = requestParamFormatter.convertLatitudeAndLongitudeToQueryParam(54.3288,18.6097)
         loadVenues()
     }
 
@@ -36,8 +52,8 @@ class VenueListPresenter @Inject constructor(private val venuesRepository: Venue
     }
 
     private fun loadVenues() {
-        view?.showLoading(true)
         latitudeAndLongitude?.let {
+            view?.showLoading(true)
             venuesRepository
                 .getVenues(it)
                 .subscribeOn(schedulerProvider.computation())
@@ -66,6 +82,14 @@ class VenueListPresenter @Inject constructor(private val venuesRepository: Venue
           }
     }
 
+
+    override fun locationPermissionGranted() {
+        getLocationFromProvider()
+    }
+
+    override fun locationPermissionDenied() {
+        view?.displayNoLocationPermissionWarning()
+    }
 
     override fun dropView() {
         compositeDisposable.clear()

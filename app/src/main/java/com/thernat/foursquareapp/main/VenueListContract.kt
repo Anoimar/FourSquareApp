@@ -19,13 +19,20 @@ interface VenueListContract {
 
         fun displayNoResults()
 
+        fun isPermissionGranted(): Boolean
+
+        fun askForLocationPermissions()
+
+        fun displayNoLocationPermissionWarning()
 
     }
 
     interface Presenter : BasePresenter<View> {
 
-        fun newLocationAcquired(latitude: Double, longitude: Double)
-
         fun setNewFilter(query: String)
+
+        fun locationPermissionGranted()
+
+        fun locationPermissionDenied()
     }
 }

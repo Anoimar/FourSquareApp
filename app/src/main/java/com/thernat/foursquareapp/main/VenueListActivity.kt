@@ -1,5 +1,6 @@
 package com.thernat.foursquareapp.main
 
+import android.Manifest
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AlertDialog
@@ -9,15 +10,22 @@ import com.thernat.foursquareapp.api.json.Venue
 import com.thernat.foursquareapp.main.adapter.VenueAdapter
 import dagger.android.support.DaggerAppCompatActivity
 import kotlinx.android.synthetic.main.activity_main.*
+import pub.devrel.easypermissions.EasyPermissions
 import javax.inject.Inject
 
-class VenueListActivity : DaggerAppCompatActivity(),VenueListContract.View {
+class VenueListActivity : DaggerAppCompatActivity(),VenueListContract.View,EasyPermissions.PermissionCallbacks {
 
     @Inject
     lateinit var presenter: VenueListContract.Presenter
 
     @Inject
     lateinit var venueAdapter: VenueAdapter
+
+    companion object {
+        private const val REQUEST_CODE_LOCATION_PERM = 123
+    }
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,7 +56,7 @@ class VenueListActivity : DaggerAppCompatActivity(),VenueListContract.View {
     }
 
     override fun displayError() {
-        showAlert()
+        showAlert(getString(R.string.download_failed))
     }
 
     override fun showLoading(show: Boolean) {
@@ -57,7 +65,6 @@ class VenueListActivity : DaggerAppCompatActivity(),VenueListContract.View {
         } else {
             pbLoading.visibility = View.INVISIBLE
         }
-
     }
 
     override fun displayNoResults() {
@@ -68,7 +75,30 @@ class VenueListActivity : DaggerAppCompatActivity(),VenueListContract.View {
     override fun onResume() {
         super.onResume()
         presenter.takeView(this)
-        presenter.newLocationAcquired(54.3288,18.6097)
+    }
+
+    override fun displayNoLocationPermissionWarning() {
+        showAlert(getString(R.string.location_permission_denied))
+    }
+
+    private fun showAlert(alertContent: String) {
+        AlertDialog.Builder(this).create().run {
+         setMessage(alertContent)
+            setButton(AlertDialog.BUTTON_NEUTRAL,getString(R.string.button_neutral)){
+                    dialog, _ -> dialog.dismiss()
+            }
+            show()
+        }
+    }
+
+    override fun askForLocationPermissions() {
+        EasyPermissions.requestPermissions( this,getString(R.string.permission_location_info),
+            REQUEST_CODE_LOCATION_PERM,
+            Manifest.permission.ACCESS_FINE_LOCATION)
+    }
+
+    override fun isPermissionGranted(): Boolean {
+        return EasyPermissions.hasPermissions(this, Manifest.permission.ACCESS_FINE_LOCATION)
     }
 
     override fun onPause() {
@@ -76,13 +106,20 @@ class VenueListActivity : DaggerAppCompatActivity(),VenueListContract.View {
         super.onPause()
     }
 
-    private fun showAlert(){
-        AlertDialog.Builder(this).create().run {
-         setMessage(getString(R.string.download_failed))
-            setButton(AlertDialog.BUTTON_NEUTRAL,getString(R.string.button_neutral)){
-                    dialog, _ -> dialog.dismiss()
-            }
-            show()
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this)
+    }
+
+    override fun onPermissionsDenied(requestCode: Int, perms: MutableList<String>) {
+        if(requestCode == REQUEST_CODE_LOCATION_PERM){
+            presenter.locationPermissionDenied()
+        }
+    }
+
+    override fun onPermissionsGranted(requestCode: Int, perms: MutableList<String>) {
+        if(requestCode == REQUEST_CODE_LOCATION_PERM){
+            presenter.locationPermissionGranted()
         }
     }
 }
