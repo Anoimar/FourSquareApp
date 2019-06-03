@@ -1,5 +1,6 @@
 package com.thernat.foursquareapp.utils.schedulers
 
+import dagger.Reusable
 import io.reactivex.Scheduler
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -9,7 +10,7 @@ import javax.inject.Singleton
 /**
  * Created by m.rafalski on 01/06/2019.
  */
-@Singleton
+@Reusable
 class SchedulerProvider @Inject constructor(): BaseSchedulerProvider  {
 
     override fun computation(): Scheduler = Schedulers.computation()

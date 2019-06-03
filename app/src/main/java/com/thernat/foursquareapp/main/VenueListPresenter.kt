@@ -1,17 +1,17 @@
 package com.thernat.foursquareapp.main
 
+import android.util.Log
 import com.thernat.foursquareapp.api.json.Venue
 import com.thernat.foursquareapp.data.source.repository.VenuesRepository
 import com.thernat.foursquareapp.location.LocationSource
-import com.thernat.foursquareapp.utils.location.RequestParamFormatter
-import com.thernat.foursquareapp.utils.schedulers.SchedulerProvider
+import com.thernat.foursquareapp.utils.schedulers.BaseSchedulerProvider
 import io.reactivex.disposables.CompositeDisposable
 import javax.inject.Inject
 
 /**
  * Created by m.rafalski on 01/06/2019.
  */
-class VenueListPresenter @Inject constructor(private val venuesRepository: VenuesRepository, private val requestParamFormatter: RequestParamFormatter, private val schedulerProvider: SchedulerProvider,private val locationSource: LocationSource): VenueListContract.Presenter {
+class VenueListPresenter @Inject constructor(private val venuesRepository: VenuesRepository,private val schedulerProvider: BaseSchedulerProvider,private val locationSource: LocationSource): VenueListContract.Presenter {
 
     private val compositeDisposable: CompositeDisposable = CompositeDisposable()
 

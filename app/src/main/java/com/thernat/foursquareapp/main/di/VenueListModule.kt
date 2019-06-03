@@ -5,6 +5,8 @@ import com.thernat.foursquareapp.main.VenueListActivity
 import com.thernat.foursquareapp.main.VenueListContract
 import com.thernat.foursquareapp.main.VenueListPresenter
 import com.thernat.foursquareapp.main.adapter.VenueAdapter
+import com.thernat.foursquareapp.utils.schedulers.BaseSchedulerProvider
+import com.thernat.foursquareapp.utils.schedulers.SchedulerProvider
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
@@ -30,6 +32,13 @@ abstract class VenueListModule {
                 venueListActivity,
                 arrayListOf()
             )
+        }
+
+        @JvmStatic
+        @Provides
+        @ActivityScoped
+        fun provideBaseSchedulerProvider(): BaseSchedulerProvider {
+            return SchedulerProvider()
         }
 
     }
