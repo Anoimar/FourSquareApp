@@ -1,6 +1,5 @@
 package com.thernat.foursquareapp.main
 
-import android.util.Log
 import com.thernat.foursquareapp.api.json.Venue
 import com.thernat.foursquareapp.data.source.repository.VenuesRepository
 import com.thernat.foursquareapp.location.LocationSource
