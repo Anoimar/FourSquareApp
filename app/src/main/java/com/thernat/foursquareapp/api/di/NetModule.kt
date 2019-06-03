@@ -37,11 +37,7 @@ object NetModule {
     }
 
     private fun createOkHttpClient(): OkHttpClient {
-        val interceptor = HttpLoggingInterceptor().apply {
-            level = HttpLoggingInterceptor.Level.BODY
-        }
         return OkHttpClient.Builder()
-            .addInterceptor(interceptor)
             .connectTimeout(1, TimeUnit.MINUTES)
             .writeTimeout(1, TimeUnit.MINUTES)
             .readTimeout(1, TimeUnit.MINUTES)
